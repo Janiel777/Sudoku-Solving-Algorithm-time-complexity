@@ -54,6 +54,16 @@ In the context of a sudoku, the clues are the numbers that are in the same colum
 <a name="Brute-force-without-any-optimization-for-solving-the-sudoku"></a>
 # Brute force without any optimization for solving the sudoku
 
+The following description is a flowchart of how the algorithm works.
+
+1. We create a class called Nodes to store specific cells in the sudoku. In this case, they will be the cells that started out empty. The nodes will have a value, their row and their column in which they are located
+2. We iterate through the entire sudoku (2 for nested loops) and make a list in which we will save all the empty cells in the form of nodes.
+3. We create a function to know if the sudoku is solved or not. This function iterates through the list of nodes and for each node it checks the elements in its column, row and box to see if that value is accepted.
+4. We make a recursive function which will have as parameters the list of nodes and an indexing variable to access a node for each level of recursion.
+    - We iterate between all the possible numbers that a cell can have (1 to 9) and:
+      - Is the sudoku solved? Yes: we stop No: we continue
+      - We change the value of the node to the iterator variable of the for
+      - We call the recursion for the next node
 
 
 <a name="Brute-force-reducing-the-possible-numbers-of-each-empty-cell-for-solving-the-sudoku"></a>
