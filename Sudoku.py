@@ -254,7 +254,7 @@ class Sudoku:
     initialTime = time.time()
     n = len(sudoku)
 
-    #guarda una lista con todas las celdas que empezaron vacias
+    #saves a list with all the cells that started empty
     nodes = []
     for row in range(n):
       for column in range(n):
