@@ -64,16 +64,141 @@ The following description is a flowchart of how the algorithm works.
       - Is the sudoku solved? Yes: we stop No: we continue
       - We change the value of the node to the iterator variable of the for
       - We call the recursion for the next node
+     
+```python
+def solveWithForceBrute(self, sudoku):
+
+    initialTime = time.time()
+    n = len(sudoku)
+
+    #saves a list with all the cells that started empty
+    nodes = []
+    for row in range(n):
+      for column in range(n):
+        if (sudoku[row][column] == -1):
+          nodes.append(Node(1, row, column))
+          sudoku[row][column] = 1
+        self.iterations += 1
+
+    def recursiveFunc(nodes, i=0):
+
+      # os.system('cls' if os.name == 'nt' else 'clear')
+      # for l in sudoku:
+      #   print(l)
+
+      for j in range(n):
+        if self.isSolved(sudoku, nodes) or i >= len(nodes): return
+        nodes[i].setValue(j + 1, sudoku)
+        recursiveFunc(nodes, i + 1)
+        self.iterations += 1
+
+    recursiveFunc(nodes)
+    # os.system('cls' if os.name == 'nt' else 'clear')
+    finalTime = time.time()
+    self.record.append((("iterations", self.iterations),("Time in seconds", finalTime - initialTime), "Solve sudoku")) 
+    self.iterations = 0
+```
 
 
 <a name="Brute-force-reducing-the-possible-numbers-of-each-empty-cell-for-solving-the-sudoku"></a>
 # Brute force reducing the possible numbers of each empty cell for solving the sudoku
 
+Este algoritmo es basicamente igual que el anterior pero en vez de probar en cada celda los numeros del 1 al 9, se reducen los posibles numeros de cada celda con respecto a los valores en sus filas, columnas y recuadros. De esta manera se puede llegar a reducir muchisimo el tiempo de complejidad. La siguiente descripcion es un flowchart del algortimo:
+
+1. We create a class called Nodes to store specific cells in the sudoku. In this case they will be the cells that started empty. Nodes will have a value, their row, their column, and their possible values with respect to the values in their column, row, and box in which they are located.
+2. We iterate through the entire sudoku (2 for nested loops) and make a list in which we will save all the empty cells in the form of nodes.
+3. We create a function to know if the sudoku is solved or not. This function iterates through the list of nodes and for each node it checks the elements in its column, row and box to see if that value is correct.
+4. We make a recursive function which will have as parameters the list of nodes and an indexing variable to access a node for each level of recursion.
+    - We iterate between all the possible numbers that a cell can have (In this case it varies for each node) and:
+      - Is the sudoku solved? Yes: we stop No: we continue
+      - We change the value of the node to his next value in his possible values list
+      - We call the recursion for the next node
+     
+```python
+ def solveWithForceBrute1(self, sudoku):
+
+    initialTime = time.time()
+    n = len(sudoku)
+
+    nodes = []
+    for row in range(n):
+      for column in range(n):
+        if (sudoku[row][column] == -1):
+          nodes.append(Node(-1, row, column))
+          #sudoku[row][column] = 1
+        self.iterations += 1
+
+    for n in nodes:
+      self.calculatePossibleValues(n, sudoku)
+
+    def recursiveFunc(nodes, i=0):
+      if i >= len(nodes): return
+      
+      #print(nodes[i].possibleValues)
+      for j in range(len(nodes[i].possibleValues)):
+        if self.isSolved(sudoku, nodes) or i >= len(nodes): return
+        #nodes[i].setValue(nodes[i].possibleValues[j], sudoku)
+        self.setNodeNextValue(nodes[i], sudoku)
+        recursiveFunc(nodes, i + 1)
+        self.iterations += 1
+
+    recursiveFunc(nodes)
+    # os.system('cls' if os.name == 'nt' else 'clear')
+    finalTime = time.time()
+    self.record.append((("iterations", self.iterations),("Time in seconds", finalTime - initialTime), "Solve sudoku")) 
+    self.iterations = 0
+```
+
 <a name="What-is-Branch-and-bound-technique"></a>
 # What is Branch and bound technique
+
+Branch and bound is an optimization technique used to solve combinatorics problems. What it does is convert the problem into a tree of possible solutions which it visits one by one and explores the promising branches, discarding all combinations that would not lead to the most optimal solution.
 
 <a name="Branch-and-bound-for-solving-the-sudoku"></a>
 # Branch and bound for solving the sudoku
 
+Why isn't the algorithm that calculates the possible values for each cell and then brute forces it a branch and bound algorithm? This is because even with this method in which possible combinations are discarded, there are iterations in which two cells that share the same column, row or box may have the same value at that moment. In addition, when they have the same values, time is wasted calculating all the combinations for the other nodes. That is to say, time is wasted trying combinations in a branch that we know will not be the solution.
+
+[Here there will be an explanation of how to make a branch and bound algorithm to solve a sudoku]
+
 <a name="Comparison-of-time-complexity-of-algorithms"></a>
 # Comparison of time complexity of algorithms
+
+The following is a table comparing the complexity times for each algorithm.
+```
+Number of Empty Cells   | Time in seconds (Force brute)     | Time in seconds (Force brute with optimization)
+1                       | 0.0002007436752319336             | 0.0003960323333740234
+2                       | 0.0029160404205322266             | 0.0010248327255249024
+3                       | 0.01653665542602539               | 0.00048390865325927736
+4                       | 0.14886958599090577               | 0.0003703784942626953
+5                       | 1.0962364149093629                | 0.0007730245590209961
+6                       | 17.91752004623413                 | 0.0017011547088623047
+7                       |                                   | 0.001208658218383789
+8                       |                                   | 0.0008583593368530273
+9                       |                                   | 0.0008507966995239258
+10                      |                                   | 0.0021387863159179686
+11                      |                                   | 0.0030039358139038086
+12                      |                                   | 0.002734413146972656
+13                      |                                   | 0.002538614273071289
+14                      |                                   | 0.006195821762084961
+15                      |                                   | 0.004740405082702637
+16                      |                                   | 0.0030010461807250975
+17                      |                                   | 0.004759960174560547
+18                      |                                   | 0.008332276344299316
+19                      |                                   | 0.010550575256347656
+20                      |                                   | 0.011111707687377929
+21                      |                                   | 0.03309983253479004
+22                      |                                   | 0.01857440948486328
+23                      |                                   | 0.022574400901794432
+24                      |                                   | 0.04464530467987061
+25                      |                                   | 0.04456526279449463
+26                      |                                   | 6.8226388692855835
+```
+
+
+After calculating an exponential regression in Excel for each data set, these are the time complexity projections plotted in <a href="https://www.geogebra.org/?lang=es" target="_blank">geogebra</a>. 
+
+![image](https://github.com/Janiel777/Sudoku-time-complexity/assets/95184925/44ac876c-3972-4fd2-b515-58d00a43da3a)
+
+
+Analyzing the data you can notice a big difference in the complexity times. The unoptimized brute force algorithm can be said to have a limit of 8 empty cells before it is raised to infinity. Making this algorithm not viable. On the other hand, the optimized brute force algorithm can solve a sudoku with 35 empty cells before exceeding the second in execution time. This could already be a viable algorithm. However, for a number of empty cells greater than 40, the execution time is still too high.
