@@ -1,4 +1,4 @@
-# Sudoku-time-complexity
+# Sudoku-Solving-Algorithm-time-complexity
 Compare the time complexity of an algorithm that solves Sudoku with brute force techniques. Two brute force algorithms are going to be compared. One in which all combinations are tested without any type of optimization and in the second the possible numbers will be calculated for each empty cell and then all the possible combinations with those numbers are tested. This is for the purpose of seeing how much the time complexity was reduced for the first algorithm. This repository is still in progress. The idea is to add a third algorithm but that uses branch and bound techniques to further reduce the time complexity.
 
 ## Index
