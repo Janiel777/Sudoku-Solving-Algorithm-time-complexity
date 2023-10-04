@@ -81,11 +81,6 @@ def solveWithForceBrute(self, sudoku):
         self.iterations += 1
 
     def recursiveFunc(nodes, i=0):
-
-      # os.system('cls' if os.name == 'nt' else 'clear')
-      # for l in sudoku:
-      #   print(l)
-
       for j in range(n):
         if self.isSolved(sudoku, nodes) or i >= len(nodes): return
         nodes[i].setValue(j + 1, sudoku)
@@ -93,10 +88,7 @@ def solveWithForceBrute(self, sudoku):
         self.iterations += 1
 
     recursiveFunc(nodes)
-    # os.system('cls' if os.name == 'nt' else 'clear')
-    finalTime = time.time()
-    self.record.append((("iterations", self.iterations),("Time in seconds", finalTime - initialTime), "Solve sudoku")) 
-    self.iterations = 0
+
 ```
 
 
@@ -143,10 +135,6 @@ Este algoritmo es basicamente igual que el anterior pero en vez de probar en cad
         self.iterations += 1
 
     recursiveFunc(nodes)
-    # os.system('cls' if os.name == 'nt' else 'clear')
-    finalTime = time.time()
-    self.record.append((("iterations", self.iterations),("Time in seconds", finalTime - initialTime), "Solve sudoku")) 
-    self.iterations = 0
 ```
 
 <a name="What-is-Branch-and-bound-technique"></a>
@@ -199,6 +187,13 @@ Number of Empty Cells   | Time in seconds (Force brute)     | Time in seconds (F
 After calculating an exponential regression in Excel for each data set, these are the time complexity projections plotted in <a href="https://www.geogebra.org/?lang=es" target="_blank">geogebra</a>. 
 
 ![image](https://github.com/Janiel777/Sudoku-time-complexity/assets/95184925/44ac876c-3972-4fd2-b515-58d00a43da3a)
+
+
+- The green function is the unoptimized brute force algorithm.
+- The blue function is the optimized brute force algorithm.
+
+
+
 
 
 Analyzing the data you can notice a big difference in the complexity times. The unoptimized brute force algorithm can be said to have a limit of 8 empty cells before it is raised to infinity. Making this algorithm not viable. On the other hand, the optimized brute force algorithm can solve a sudoku with 35 empty cells before exceeding the second in execution time. This could already be a viable algorithm. However, for a number of empty cells greater than 40, the execution time is still too high.
