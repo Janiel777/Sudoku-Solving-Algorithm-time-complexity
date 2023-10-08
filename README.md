@@ -205,6 +205,8 @@ def solveSudoku(self, sudoku):
         
         currentNode.restoreValueInNeighbors(l)
         currentNode.setValue(-1, sudoku)
+
+    backtracking(sudoku.nodeWithLessPossibleValues(), [False])
         
 ```
 
