@@ -11,7 +11,7 @@ Compare the time complexity of an algorithm that solves Sudoku with brute force 
       
    - [Brute force reducing the possible numbers of each empty cell for solving the sudoku](#Brute-force-reducing-the-possible-numbers-of-each-empty-cell-for-solving-the-sudoku)
 
-   - [What is Branch and bound technique](#What-is-Branch-and-bound-technique)
+   - [What is backtracking technique](#What-is-Branch-and-bound-technique)
  
    - [Branch and bound for solving the sudoku](#Branch-and-bound-for-solving-the-sudoku)
 
@@ -46,7 +46,7 @@ However, the techniques that we are going to use to make the algorithms in the c
 
 <a name="What-is-brute-force-technique"></a>
 # What is brute force technique
-Using brute force when designing an algorithm to solve a problem is basically calculating all possible scenarios until the correct solution is found. Normally, this technique is usually the last option since even for a computer the execution time until finding the correct solution can be extremely enormous. Even so, this does not mean that it is ruled out as an algorithm design technique. A simple example could be in the exhaustive search for a password. Unless we have some clues as to what the password could be, we would have no choice but to try all possible combinations. However, if we know that the password begins with x characters, that would greatly reduce the number of possible combinations when finding the password.
+Using brute force when designing an algorithm to solve a problem is basically calculating all possible scenarios until you find the correct solution. Normally this technique is usually the last option since even for a computer the execution time until finding the correct solution can be extremely enormous. Even so, this does not mean that it is discarded as an algorithm design technique. A simple example could be searching exhaustively for a password. Unless we have some clues as to what the password could be, we would have no choice but to try every possible combination. However, if we know that the password can only begin and end with numbers, that would greatly reduce the number of possible combinations when finding the password.
 
 In the context of a sudoku, the clues are the numbers that are in the same column, row and box of each cell without a number. In this way, many possibilities could be discarded for each cell without a number, which would considerably reduce the number of combinations that we would have to perform. But would this make it viable to use brute force to solve a sudoku?
 
@@ -95,16 +95,17 @@ def solveWithForceBrute(self, sudoku):
 <a name="Brute-force-reducing-the-possible-numbers-of-each-empty-cell-for-solving-the-sudoku"></a>
 # Brute force reducing the possible numbers of each empty cell for solving the sudoku
 
-Este algoritmo es basicamente igual que el anterior pero en vez de probar en cada celda los numeros del 1 al 9, se reducen los posibles numeros de cada celda con respecto a los valores en sus filas, columnas y recuadros. De esta manera se puede llegar a reducir muchisimo el tiempo de complejidad. La siguiente descripcion es un flowchart del algortimo:
+This algorithm is basically the same as the previous one but instead of testing the numbers from 1 to 9 in each cell, the possible numbers in each cell are reduced with respect to the values in its rows, columns and boxes. In this way, the complexity time can be greatly reduced. The following description is a flowchart of the algorithm:
 
-1. We create a class called Nodes to store specific cells in the sudoku. In this case they will be the cells that started empty. Nodes will have a value, their row, their column, and their possible values with respect to the values in their column, row, and box in which they are located.
-2. We iterate through the entire sudoku (2 for nested loops) and make a list in which we will save all the empty cells in the form of nodes.
-3. We create a function to know if the sudoku is solved or not. This function iterates through the list of nodes and for each node it checks the elements in its column, row and box to see if that value is correct.
-4. We make a recursive function which will have as parameters the list of nodes and an indexing variable to access a node for each level of recursion.
-    - We iterate between all the possible numbers that a cell can have (In this case it varies for each node) and:
-      - Is the sudoku solved? Yes: we stop No: we continue
-      - We change the value of the node to his next value in his possible values list
-      - We call the recursion for the next node
+1. We create a class called Nodes to store specific cells in the sudoku. In this case they will be the cells that started empty. Nodes will have a value, their row, their column, and their possible values with respect to the values of their column, row, and box they are in.
+2. We go through the entire sudoku (2 for nested loops) and make a list in which we will save all the empty cells in the form of nodes.
+3. We create a function to know if the sudoku is solved or not. This function loops through the list of nodes and for each node checks the elements in its column, row, and box to see if that value is correct.
+4. We make a function that calculates and defines a list for each node containing its possible values that they can take and we call this function for each node.
+5. We make a recursive function which will have as parameters the list of nodes and an indexing variable to access a node for each level of recursion.
+  - We iterate between all the possible numbers that a cell can have (In this case it varies for each node) and:
+    - Is the sudoku solved? Yes: we stop No: we continue
+    - We change the value of the node to its next value in its list of possible values
+    -  We call recursion for the next node.
      
 ```python
  def solveWithForceBrute1(self, sudoku):
@@ -137,17 +138,76 @@ Este algoritmo es basicamente igual que el anterior pero en vez de probar en cad
     recursiveFunc(nodes)
 ```
 
-<a name="What-is-Branch-and-bound-technique"></a>
-# What is Branch and bound technique
+<a name="What is backtracking technique"></a>
+# What is backtracking technique
 
-Branch and bound is an optimization technique used to solve combinatorics problems. What it does is convert the problem into a tree of possible solutions which it visits one by one and explores the promising branches, discarding all combinations that would not lead to the most optimal solution.
+Backtracking is a search technique used to solve search problems. What it does is explore the tree of possible paths, discarding all branches that would not lead to the solution.
 
 <a name="Branch-and-bound-for-solving-the-sudoku"></a>
-# Branch and bound for solving the sudoku
+# Backtracking for solving the sudoku
 
-Why isn't the algorithm that calculates the possible values for each cell and then brute forces it a branch and bound algorithm? This is because even with this method in which possible combinations are discarded, there are iterations in which two cells that share the same column, row or box may have the same value at that moment. In addition, when they have the same values, time is wasted calculating all the combinations for the other nodes. That is to say, time is wasted trying combinations in a branch that we know will not be the solution.
+In the context of a sudoku, what the backtracking algorithm does is visit the nodes and assume values for each of them. When you encounter a node that no longer has possible values due to the assumptions that were made, it means that it is time to go back and change to the next value of the last node to which we assumed a value. This allows us to discard search branches every time we find a dead end, so the possible combinations are reduced the more we explore the branches. 
 
-[Here there will be an explanation of how to make a branch and bound algorithm to solve a sudoku]
+This method of moving as deep as possible before going back and continuing the search on the next branch is known as Deep first search. Now, you will know that any algorithm that can be implemented with Deep first search can also be implemented with Breadth first seacrh. However, in the context of a sudoku, this way of moving through the combination tree does not offer us any advantage over Deep first seacrh. In fact, to be able to move using Breadth first search we would have to use more memory to be able to keep track of which would be the next node to expand. This makes the Deep fisrt seacrh search form the most optimal for this type of problem.
+
+The following description is a flowchart of how the algorithm works.
+
+1. We create a class called Nodes to store specific cells in the sudoku. In this case they will be the cells that started empty. The nodes will have a value, their row, their column, their possible values and their neighboring nodes.
+
+2. we iterate through the entire sudoku (2 for loops nested) and make a list of nodes for all the cells that started empty. Nodes that have values of -1 will be considered empty.
+
+3. Afterwards, it is iterated over the list of nodes and it is defined for each node, what are the possible values that they can take and what are their neighboring nodes.
+
+4. We create a recursive function that will implement the backtracking technique. This will receive a node as a parameter.
+   - For that node we are in, it will iterate through its possible values.
+     - Its value will be changed to the current value of the for loop.
+     - The value assumed for the current node will be removed from the list of possible values of the neighboring nodes of the node in which we are located.
+     - We calculate the node with the smallest number of possible values and that does not have an assigned value.
+     - We call the recursion for that node.
+     - After the recursive call, if the sudoku was not solved after having changed the value of the current node, you must return to the neighbors the value that was eliminated from all the lists of possible values for each neighbor and without forgetting also add it to the list of possible values of the current node we are in. Without forgetting to change the value of the current node to -1.
+     - End of for loop
+       
+(Base statements for the bactracking)
+  - If there is no node that has not been assigned a value, it means that all of them already have a value and therefore the sudoku is already solved. In this context, that function that calculates the next node would return None.
+  - When the current node does not have any possible number to assume.
+
+5. Call the backtracking function for any node in the node list.
+
+The implemented code:
+
+```python
+def solveSudoku(self, sudoku):
+
+    size = len(sudoku.unsolvedSudoku)
+    
+    sudoku.defineNodes()
+    for n in sudoku.nodes:
+      n.updatePossibleValues(sudoku)
+      sudoku.defineNeighbors(n)
+    
+    
+    def backtracking(currentNode, finished):
+
+      if currentNode == None: 
+        finished[0] = True
+        return
+        
+      if len(currentNode.possibleValues) == 0: 
+        return
+      
+      for v in copy.deepcopy(currentNode.possibleValues):
+        currentNode.setValue(v,sudoku)
+          
+        l = currentNode.removeValueInNeighbors()
+        backtracking(sudoku.nodeWithLessPossibleValues(), finished)
+        
+        if finished[0]: return
+        
+        currentNode.restoreValueInNeighbors(l)
+        currentNode.setValue(-1, sudoku)
+        
+```
+
 
 <a name="Comparison-of-time-complexity-of-algorithms"></a>
 # Comparison of time complexity of algorithms
