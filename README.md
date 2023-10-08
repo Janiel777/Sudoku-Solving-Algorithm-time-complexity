@@ -212,6 +212,8 @@ def solveSudoku(self, sudoku):
 <a name="Comparison-of-time-complexity-of-algorithms"></a>
 # Comparison of time complexity of algorithms
 
+These values need to be updated as they do not include the data from the backtraking algorithm.
+
 The following is a table comparing the average complexity times for each algorithm after having solved 100 sudoku for each number of blank cells. The brute force algorithm took too long when there were 7 empty cells or more.
 ```
 Number of Empty Cells   | Time in seconds (Force brute)     | Time in seconds (Force brute with optimization)
