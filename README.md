@@ -11,9 +11,9 @@ Compare the time complexity of an algorithm that solves Sudoku with brute force 
       
    - [Brute force reducing the possible numbers of each empty cell for solving the sudoku](#Brute-force-reducing-the-possible-numbers-of-each-empty-cell-for-solving-the-sudoku)
 
-   - [What is backtracking technique](#What-is-Branch-and-bound-technique)
+   - [What is backtracking technique](#What-is-backtracking-technique)
  
-   - [Branch and bound for solving the sudoku](#Branch-and-bound-for-solving-the-sudoku)
+   - [Backtracking for solving the sudoku](#Backtracking-for-solving-the-sudoku)
 
 - [Comparison of time complexity of algorithms](#Comparison-of-time-complexity-of-algorithms)
      
@@ -138,12 +138,12 @@ This algorithm is basically the same as the previous one but instead of testing 
     recursiveFunc(nodes)
 ```
 
-<a name="What is backtracking technique"></a>
+<a name="What-is-backtracking-technique"></a>
 # What is backtracking technique
 
 Backtracking is a search technique used to solve search problems. What it does is explore the tree of possible paths, discarding all branches that would not lead to the solution.
 
-<a name="Branch-and-bound-for-solving-the-sudoku"></a>
+<a name="Backtracking-for-solving-the-sudoku"></a>
 # Backtracking for solving the sudoku
 
 In the context of a sudoku, what the backtracking algorithm does is visit the nodes and assume values for each of them. When you encounter a node that no longer has possible values due to the assumptions that were made, it means that it is time to go back and change to the next value of the last node to which we assumed a value. This allows us to discard search branches every time we find a dead end, so the possible combinations are reduced the more we explore the branches. 
