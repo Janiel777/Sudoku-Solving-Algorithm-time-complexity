@@ -1,5 +1,5 @@
 # Sudoku-Solving-Algorithm-time-complexity
-Compare the time complexity of an algorithm that solves Sudoku with brute force techniques. Two brute force algorithms are going to be compared. One in which all combinations are tested without any type of optimization and in the second the possible numbers will be calculated for each empty cell and then all the possible combinations with those numbers are tested. This is for the purpose of seeing how much the time complexity was reduced for the first algorithm. This repository is still in progress. The idea is to add a third algorithm but that uses branch and bound techniques to further reduce the time complexity.
+Compare the time complexity of an algorithm that solves Sudoku with brute force techniques and one with backtracking. One in which all combinations are tested without any type of optimization and in the second the possible numbers will be calculated for each empty cell and then all possible combinations are tested with those numbers. Then the backtracking algorithm which assumes values for the empty cells, going back every time it finds a cell with no possible values to try until the solution is found. This aims to see how much the time complexity can be reduced when solving a sudoku which is an excellent search and optimization problem.
 
 ## Index
 - Introduction
@@ -214,50 +214,109 @@ def solveSudoku(self, sudoku):
 <a name="Comparison-of-time-complexity-of-algorithms"></a>
 # Comparison of time complexity of algorithms
 
-These values need to be updated as they do not include the data from the backtraking algorithm.
-
-The following is a table comparing the average complexity times for each algorithm after having solved 100 sudoku for each number of blank cells. The brute force algorithm took too long when there were 7 empty cells or more.
+The following is a table that compares the average complexity times for each algorithm after having solved approximately 1000 sudoku for each number of empty cells. For the values that began to get larger, the number of attempts was reduced so as not to take as long.
 ```
-Number of Empty Cells   | Time in seconds (Force brute)     | Time in seconds (Force brute with optimization)
-1                       | 0.0002007436752319336             | 0.0003960323333740234
-2                       | 0.0029160404205322266             | 0.0010248327255249024
-3                       | 0.01653665542602539               | 0.00048390865325927736
-4                       | 0.14886958599090577               | 0.0003703784942626953
-5                       | 1.0962364149093629                | 0.0007730245590209961
-6                       | 17.91752004623413                 | 0.0017011547088623047
-7                       |                                   | 0.001208658218383789
-8                       |                                   | 0.0008583593368530273
-9                       |                                   | 0.0008507966995239258
-10                      |                                   | 0.0021387863159179686
-11                      |                                   | 0.0030039358139038086
-12                      |                                   | 0.002734413146972656
-13                      |                                   | 0.002538614273071289
-14                      |                                   | 0.006195821762084961
-15                      |                                   | 0.004740405082702637
-16                      |                                   | 0.0030010461807250975
-17                      |                                   | 0.004759960174560547
-18                      |                                   | 0.008332276344299316
-19                      |                                   | 0.010550575256347656
-20                      |                                   | 0.011111707687377929
-21                      |                                   | 0.03309983253479004
-22                      |                                   | 0.01857440948486328
-23                      |                                   | 0.022574400901794432
-24                      |                                   | 0.04464530467987061
-25                      |                                   | 0.04456526279449463
-26                      |                                   | 6.8226388692855835
+| Empty Cells | Bactracking | Brute Force Optimizado | Brute Force |
+|-------------|-------------|------------------------|------------|
+| 1           | 0.000200744 | 0.000396032            | 0.001001596 |
+| 2           | 0.00291604  | 0.001024833            | 0.001001358 |
+| 3           | 0.016536655 | 0.000483909            | 0.001003265 |
+| 4           | 0.148869586 | 0.000370378            | 0.001001596 |
+| 5           | 1.096236415 | 0.000773025            | 0.001407385 |
+| 6           | 17.91752005 | 0.001701155            | 0.001002073 |
+| 7           |             | 0.001208658            | 0.001001835 |
+| 8           |             | 0.000858359            | 0.001012802 |
+| 9           |             | 0.000850797            | 0.001002073 |
+| 10          |             | 0.002138786            | 0.001009464 |
+| 11          |             | 0.003003936            | 0.001409531 |
+| 12          |             | 0.002734413            | 0.001439095 |
+| 13          |             | 0.002538614            | 0.001168251 |
+| 14          |             | 0.006195822            | 0.001008272 |
+| 15          |             | 0.004740405            | 0.001073837 |
+| 16          |             | 0.003001046            | 0.001009464 |
+| 17          |             | 0.00475996             | 0.00118041  |
+| 18          |             | 0.008332276            | 0.001009703 |
+| 19          |             | 0.010550575            | 0.001145601 |
+| 20          |             | 0.011111708            | 0.00122571  |
+| 21          |             | 0.033099833            | 0.001018524 |
+| 22          |             | 0.018574409            | 0.001037598 |
+| 23          |             | 0.022574401            | 0.001212597 |
+| 24          |             | 0.044645305            | 0.001504421 |
+| 25          |             | 0.044565263            | 0.002001524 |
+| 26          |             | 6.822638869            | 0.001007795 |
+| 27          |             |                        | 0.001279831 |
+| 28          |             |                        | 0.001406193 |
+| 29          |             |                        | 0.001468182 |
+| 30          |             |                        | 0.00150919  |
+| 31          |             |                        | 0.00144124  |
+| 32          |             |                        | 0.002001524 |
+| 33          |             |                        | 0.002001762 |
+| 34          |             |                        | 0.001508713 |
+| 35          |             |                        | 0.002002716 |
+| 36          |             |                        | 0.002002239 |
+| 37          |             |                        | 0.002002954 |
+| 38          |             |                        | 0.002002716 |
+| 39          |             |                        | 0.002002478 |
+| 40          |             |                        | 0.002002239 |
+| 41          |             |                        | 0.002002239 |
+| 42          |             |                        | 0.002008677 |
+| 43          |             |                        | 0.002002954 |
+| 44          |             |                        | 0.002002478 |
+| 45          |             |                        | 0.002002478 |
+| 46          |             |                        | 0.00229907  |
+| 47          |             |                        | 0.002010584 |
+| 48          |             |                        | 0.004003525 |
+| 49          |             |                        | 0.004003763 |
+| 50          |             |                        | 0.009008408 |
+| 51          |             |                        | 0.006006241 |
+| 52          |             |                        | 0.006005526 |
+| 53          |             |                        | 0.010010958 |
+| 54          |             |                        | 0.095086575 |
+| 55          |             |                        | 0.033031464 |
+| 56          |             |                        | 0.040543079 |
+| 57          |             |                        | 0.241723776 |
+| 58          |             |                        | 0.544566154 |
+| 59          |             |                        | 1.006916285 |
+| 60          |             |                        | 2.727314472 |
+| 61          |             |                        | 5.03917861  |
+| 62          |             |                        | 15.04984617 |
+| 63          |             |                        | 30.11270308 |
+| 64          |             |                        | 88.67690086 |
+| 65          |             |                        | 542.1342235 |
+| 66          |             |                        |            |
+| 67          |             |                        |            |
+| 68          |             |                        |            |
+| 69          |             |                        |            |
+| 70          |             |                        |            |
+| 71          |             |                        |            |
+| 72          |             |                        |            |
+| 73          |             |                        | 114.7233129 |
+| 74          |             |                        | 0.054049969 |
+| 75          |             |                        | 0.01000905  |
+| 76          |             |                        | 0.009009123 |
+| 77          |             |                        | 0.006005764 |
+| 78          |             |                        | 0.005004644 |
+| 79          |             |                        | 0.005004168 |
+| 80          |             |                        | 0.004280567 |
+| 81          |             |                        | 0.004004002 |
+
+
 ```
 
 
-After calculating an exponential regression in Excel for each data set, these are the time complexity projections plotted in <a href="https://www.geogebra.org/?lang=es" target="_blank">geogebra</a>. 
+After computing an exponential regression for each data set, these are the time complexity projections plotted in <a href="https://www.geogebra.org/?lang=en" target="_blank">geogebra </a>.
 
-![image](https://github.com/Janiel777/Sudoku-time-complexity/assets/95184925/44ac876c-3972-4fd2-b515-58d00a43da3a)
+![image](https://github.com/Janiel777/Sudoku-Solving-Algorithm-time-complexity/assets/95184925/7935548e-c0d3-43d8-b3cb-a4cd535e5844)
 
-
-- The green function is the unoptimized brute force algorithm.
-- The blue function is the optimized brute force algorithm.
-
-
+- The red function represents the brute force algorithm
+- The gray function represents the optimized brute force algorithm
+- The light blue function represents the backtracking algorithm
 
 
 
-Analyzing the data you can notice a big difference in the complexity times. The unoptimized brute force algorithm can be said to have a limit of 8 empty cells before it is raised to infinity. Making this algorithm not viable. On the other hand, the optimized brute force algorithm can solve a sudoku with 35 empty cells before exceeding the second in execution time. This could already be a viable algorithm. However, for a number of empty cells greater than 40, the execution time is still too high.
+
+
+Analyzing the data you can notice a big difference in the complexity times:
+- The unoptimized brute force algorithm can be said to have a limit of 8 empty cells before it is raised to infinity. Making this algorithm not viable.
+- On the other hand, the optimized brute force algorithm can solve a sudoku with 35 empty cells before exceeding the second in execution time. This could already be a viable algorithm. However, for a number of empty cells greater than 40, the execution time is still too high.
+- What happens with the time of the backtracking algorithm is very interesting. When it approaches values of 65 empty cells, the execution time shoots up to infinity. However, when it approaches values of 72 upwards, the execution time decreases again, approaching 0 again. This is because the more empty cells there are in Sudoku, the more possible solutions there will be. So the easier it will be for the algorithm to find a solution and return it. Even the algorithm works for when the sudoku has all the cells empty. Obviously, this always returns the same sudoku but it is interesting because at least it returns a valid sudoku. This means that by making some modifications, this algorithm can be used to generate sudokus.
