@@ -306,7 +306,8 @@ The following is a table that compares the average complexity times for each alg
 
 After computing an exponential regression for each data set, these are the time complexity projections plotted in <a href="https://www.geogebra.org/?lang=en" target="_blank">geogebra </a>.
 
-![image](https://github.com/Janiel777/Sudoku-Solving-Algorithm-time-complexity/assets/95184925/7935548e-c0d3-43d8-b3cb-a4cd535e5844)
+![image](https://github.com/Janiel777/Sudoku-Solving-Algorithm-time-complexity/assets/95184925/d11cc310-e01d-465a-9d95-cef7da1c54e7)
+
 
 - The red function represents the brute force algorithm
 - The gray function represents the optimized brute force algorithm
