@@ -216,7 +216,7 @@ def solveSudoku(self, sudoku):
 
 The following is a table that compares the average complexity times for each algorithm after having solved approximately 1000 sudoku for each number of empty cells. For the values that began to get larger, the number of attempts was reduced so as not to take as long.
 ```
-| Empty Cells | Bactracking | Brute Force Optimizado | Brute Force |
+| Empty Cells | Brute Force | Brute Force Optimizado | Backtracking |
 |-------------|-------------|------------------------|------------|
 | 1           | 0.000200744 | 0.000396032            | 0.001001596 |
 | 2           | 0.00291604  | 0.001024833            | 0.001001358 |
